@@ -1,10 +1,17 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://tiles/background.png" type="Texture" id=1]
 [ext_resource path="res://Label.gd" type="Script" id=2]
 [ext_resource path="res://world.gd" type="Script" id=3]
 [ext_resource path="res://FishReset.gd" type="Script" id=4]
 [ext_resource path="res://BoatCounter.gd" type="Script" id=5]
+[ext_resource path="res://tiles/two_broken.png" type="Texture" id=6]
+[ext_resource path="res://tiles/one_broken.png" type="Texture" id=7]
+[ext_resource path="res://tiles/three_broken.png" type="Texture" id=8]
+[ext_resource path="res://AnimatedSprite.gd" type="Script" id=9]
+[ext_resource path="res://StaticBody2D.gd" type="Script" id=10]
+[ext_resource path="res://Button.gd" type="Script" id=11]
+[ext_resource path="res://Game_Over_Label.gd" type="Script" id=12]
 
 [sub_resource type="TileSet" id=1]
 0/name = "background.png 0"
@@ -50,19 +57,48 @@
 2/shapes = [  ]
 2/z_index = 0
 
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "1 broken part",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "3 broken parts",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "2 broken parts",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 91.6888, 34.5877 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 563.969, 104.161 )
+
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 format = 1
-tile_data = PoolIntArray( -262149, 2, 0 )
+tile_data = PoolIntArray( -262149, 2, 0, 458759, 0, 0 )
 
 [node name="FishCount" type="Label" parent="."]
-margin_left = 8.98639
-margin_top = 9.33032
-margin_right = 168.986
-margin_bottom = 63.3303
+margin_left = 31.6393
+margin_top = 11.218
+margin_right = 191.639
+margin_bottom = 65.218
 text = "Fische:"
 script = ExtResource( 2 )
 __meta__ = {
@@ -74,11 +110,15 @@ margin_left = 646.0
 margin_top = 7.0
 margin_right = 740.0
 margin_bottom = 21.0
-text = "Highscore:"
+text = "Highscore: 0
+"
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="DrillTimer" type="Timer" parent="."]
+wait_time = 2.0
 
 [node name="FishReset" type="Timer" parent="."]
 wait_time = 2.0
@@ -88,7 +128,63 @@ script = ExtResource( 4 )
 [node name="BoatTimer" type="Timer" parent="."]
 wait_time = 4.003
 autostart = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 447.397, 462.498 )
+script = ExtResource( 10 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="StaticBody2D"]
+position = Vector2( 20.1588, 51.6567 )
+scale = Vector2( 0.261765, 0.122302 )
+frames = SubResource( 3 )
+script = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 5.24127, 44.448 )
+shape = SubResource( 2 )
+
+[node name="Game_Over_Label" type="Label" parent="."]
+pause_mode = 2
+visible = false
+margin_left = 225.914
+margin_top = 206.634
+margin_right = 520.914
+margin_bottom = 328.634
+text = "Oh, du hast es leider nicht geschafft die bösen Ölbohrer abzuwehren
+
+Highscore:"
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Game_Over_Label"]
+margin_left = -1.36853
+margin_top = 57.6661
+margin_right = 127.631
+margin_bottom = 115.666
+text = "Neustart"
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="water_body" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="water_body"]
+position = Vector2( 233.289, 628.155 )
+shape = SubResource( 4 )
+
+[node name="IncreaseDifficulty" type="Timer" parent="."]
+wait_time = 20.0
+autostart = true
 [connection signal="updateFish" from="." to="FishCount" method="_on_World_updateFish"]
+[connection signal="timeout" from="DrillTimer" to="StaticBody2D/AnimatedSprite" method="_on_DrillTimer_timeout"]
 [connection signal="increaseFishCount" from="FishReset" to="FishCount" method="_on_FishReset_increaseFishCount"]
 [connection signal="timeout" from="FishReset" to="FishReset" method="_on_FishReset_timeout"]
 [connection signal="timeout" from="BoatTimer" to="." method="_on_BoatTimer_timeout"]
+[connection signal="game_over" from="StaticBody2D/AnimatedSprite" to="." method="_on_AnimatedSprite_game_over"]
+[connection signal="visibility_changed" from="Game_Over_Label" to="Game_Over_Label" method="_on_Game_Over_Label_visibility_changed"]
+[connection signal="pressed" from="Game_Over_Label/Button" to="Game_Over_Label" method="_on_Button_pressed"]
+[connection signal="body_entered" from="water_body" to="." method="_on_water_body_body_entered"]
+[connection signal="timeout" from="IncreaseDifficulty" to="." method="_on_IncreaseDifficulty_timeout"]

@@ -30,6 +30,7 @@ func _process(delta):
 		if $FishCount.value > 0:
 			penguin.throwFish_right()		
 			emit_signal("updateFish")
+	
 	pass
 
 
@@ -49,4 +50,33 @@ func _on_BoatTimer_timeout():
 
 	
 	add_child(boat)
+	pass # Replace with function body.
+
+
+func _on_Area2D_body_entered(body):
+	print("Hallo!!")
+	pass # Replace with function body.
+
+
+func _on_AnimatedSprite_game_over():
+	print("game Over")
+	$Game_Over_Label.visible = true
+	get_tree().paused = true
+	pass # Replace with function body.
+
+
+func _on_Button_pressed():
+	get_tree().reload_current_scene()
+	pass # Replace with function body.
+
+
+func _on_water_body_body_entered(body):
+	print(body)
+	remove_child(body.get_parent())
+	pass # Replace with function body.
+
+
+func _on_IncreaseDifficulty_timeout():
+	if($BoatTimer.wait_time > 3):
+		$BoatTimer.wait_time -= 1;
 	pass # Replace with function body.

@@ -16,7 +16,7 @@ func throwFish_left():
 	var fish = fish_scene.instance()
 	$Area2D/AnimatedSprite.animation = "pingu_left"
 	fish.position = Vector2(position.x - 20, position.y)
-	fish.get_child(0).applied_force = Vector2(-4000, 0)
+	fish.get_child(0).applied_force = Vector2(-2000, 0)
 	get_parent().add_child(fish)
 	pass
 	
@@ -24,7 +24,7 @@ func throwFish_right():
 	var fish = fish_scene.instance()
 	$Area2D/AnimatedSprite.animation = "pingu_right"
 	fish.position = Vector2(position.x + 20, position.y)
-	fish.get_child(0).applied_force = Vector2(4000, 0)
+	fish.get_child(0).applied_force = Vector2(2000, 0)
 	get_parent().add_child(fish)
 	pass
 
