@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://tiles/background.png" type="Texture" id=1]
 [ext_resource path="res://Label.gd" type="Script" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://StaticBody2D.gd" type="Script" id=10]
 [ext_resource path="res://Button.gd" type="Script" id=11]
 [ext_resource path="res://Game_Over_Label.gd" type="Script" id=12]
+[ext_resource path="res://ProgressBar.gd" type="Script" id=13]
+[ext_resource path="res://tiles/fish/fish.PNG" type="Texture" id=14]
 
 [sub_resource type="TileSet" id=1]
 0/name = "background.png 0"
@@ -57,7 +59,7 @@
 2/shapes = [  ]
 2/z_index = 0
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [  ],
 "loop": true,
@@ -69,22 +71,47 @@ animations = [ {
 "name": "1 broken part",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 8 ) ],
-"loop": true,
-"name": "3 broken parts",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "2 broken parts",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "3 broken parts",
+"speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 91.6888, 34.5877 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 563.969, 104.161 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.345098, 0.670588, 0.0509804, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 1, 1, 1, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 14
+shadow_size = 2
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -92,14 +119,14 @@ script = ExtResource( 3 )
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 format = 1
-tile_data = PoolIntArray( -262149, 2, 0, 458759, 0, 0 )
+tile_data = PoolIntArray( -262149, 2, 0 )
 
 [node name="FishCount" type="Label" parent="."]
-margin_left = 31.6393
-margin_top = 11.218
-margin_right = 191.639
-margin_bottom = 65.218
-text = "Fische:"
+margin_left = 114.433
+margin_top = 18.5071
+margin_right = 148.433
+margin_bottom = 50.5071
+text = "X 1"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -136,12 +163,12 @@ script = ExtResource( 10 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="StaticBody2D"]
 position = Vector2( 20.1588, 51.6567 )
 scale = Vector2( 0.261765, 0.122302 )
-frames = SubResource( 3 )
+frames = SubResource( 2 )
 script = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 5.24127, 44.448 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Game_Over_Label" type="Label" parent="."]
 pause_mode = 2
@@ -172,12 +199,38 @@ __meta__ = {
 [node name="water_body" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="water_body"]
-position = Vector2( 233.289, 628.155 )
+position = Vector2( 230.769, 628.155 )
 shape = SubResource( 4 )
 
 [node name="IncreaseDifficulty" type="Timer" parent="."]
 wait_time = 20.0
 autostart = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
+margin_left = 319.917
+margin_top = 288.18
+margin_right = 547.917
+margin_bottom = 308.18
+custom_styles/fg = SubResource( 5 )
+custom_styles/bg = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+max_value = 50.0
+value = 10.0
+percent_visible = false
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ThrowTimer" type="Timer" parent="."]
+wait_time = 0.005
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 53.5669, 24.6924 )
+scale = Vector2( 0.249416, 0.249416 )
+frames = SubResource( 7 )
 [connection signal="updateFish" from="." to="FishCount" method="_on_World_updateFish"]
 [connection signal="timeout" from="DrillTimer" to="StaticBody2D/AnimatedSprite" method="_on_DrillTimer_timeout"]
 [connection signal="increaseFishCount" from="FishReset" to="FishCount" method="_on_FishReset_increaseFishCount"]
@@ -188,3 +241,4 @@ autostart = true
 [connection signal="pressed" from="Game_Over_Label/Button" to="Game_Over_Label" method="_on_Button_pressed"]
 [connection signal="body_entered" from="water_body" to="." method="_on_water_body_body_entered"]
 [connection signal="timeout" from="IncreaseDifficulty" to="." method="_on_IncreaseDifficulty_timeout"]
+[connection signal="timeout" from="ThrowTimer" to="ProgressBar" method="_on_ThrowTimer_timeout"]

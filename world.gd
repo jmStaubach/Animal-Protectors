@@ -22,14 +22,24 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if Input.is_action_just_pressed("ui_select") :
+		if $FishCount.value > 0:
+			$ThrowTimer.start()	
+			$ProgressBar.visible = true
+			penguin.start_throw()
+	if  Input.is_action_just_released("ui_select") && $ProgressBar.visible:
+		$ThrowTimer.stop()
+		$ProgressBar.visible = false
+		if $FishCount.value > 0:
+			#throw fish
+			penguin.throwFish($ProgressBar.value)
+			emit_signal("updateFish")
+		$ProgressBar.value = 0;
+
 	if Input.is_action_just_pressed("ui_left"):
-		if $FishCount.value > 0:
-			penguin.throwFish_left()		
-			emit_signal("updateFish")
+			penguin.look_left()		
 	if Input.is_action_just_pressed("ui_right"):
-		if $FishCount.value > 0:
-			penguin.throwFish_right()		
-			emit_signal("updateFish")
+			penguin.look_right()		
 	
 	pass
 
@@ -44,9 +54,10 @@ func _on_BoatTimer_timeout():
 	if my_random_number == 1:
 		boat.position.x = 800;
 		boat.setLeftDirection()
+		
 	else:
 		boat.setRightDirection()
-	boat.position.y = 500
+	boat.position.y = 490
 
 	
 	add_child(boat)

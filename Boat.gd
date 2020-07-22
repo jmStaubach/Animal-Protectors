@@ -16,6 +16,7 @@ func _ready():
 
 func setLeftDirection():
 	velocity = Vector2(-40,0)	
+	scale = Vector2(-1,1)
 	pass
 func setRightDirection():
 	velocity = Vector2(40,0)	
@@ -32,9 +33,13 @@ func startDrilling():
 	velocity = Vector2(0,0)
 	#TODO Animation für das Bohren hinzufügen
 	get_parent().get_child(3).start()
+	$Area2D/EnemySprite.play("drilling")
 	drilling = true
 	pass
 
+
+
+	
 func _on_Area2D_body_entered(body):
 	
 	get_parent().get_child(2).updateScore() 

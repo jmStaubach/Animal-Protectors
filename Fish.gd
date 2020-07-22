@@ -19,6 +19,9 @@ func removeSelf():
 	get_parent().remove_child(self)
 	pass
 
+func invert():
+	scale = Vector2(-1,1)
+	pass
 
 func _on_RigidBody2D_body_entered(body):
 	get_parent().remove_child(self)
