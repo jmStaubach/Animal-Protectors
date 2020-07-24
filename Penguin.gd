@@ -36,6 +36,9 @@ func start_throw():
 			$Area2D/AnimatedSprite.animation = "pingu_throw_left"						
 		pass
 		
+func setAnimation(anim):
+	$Area2D/AnimatedSprite.animation = "pingu_sad"
+	
 func throwFish(multiplier): 
 	var fish = fish_scene.instance()
 	var direction = 1

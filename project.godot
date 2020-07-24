@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="Animal-protectors-repo"
 run/main_scene="res://MainMenu.tscn"
-config/icon="res://icon.png"
+config/icon="res://tiles/game_icon.png"
 
 [display]
 

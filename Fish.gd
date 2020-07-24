@@ -16,6 +16,7 @@ func _ready():
 #	pass
 
 func removeSelf():
+	$RigidBody2D/CollisionShape2D.disabled = true
 	queue_free()
 	pass
 
@@ -23,6 +24,3 @@ func invert():
 	$RigidBody2D/AnimatedSprite.animation = "inverted"
 	pass
 
-func _on_RigidBody2D_body_entered(_body):
-	queue_free()
-	pass # Replace with function body.

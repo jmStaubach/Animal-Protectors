@@ -16,7 +16,7 @@ func _ready():
 
 func updateScore():
 	score += 1
-	text = str("Highscore: ",score)
+	text = str(score)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

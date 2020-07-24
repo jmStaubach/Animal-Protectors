@@ -40,6 +40,7 @@ func _process(delta):
 
 
 func startDrilling():
+	drilling = true
 	velocity = Vector2(0,0)
 	#TODO Animation für das Bohren hinzufügen
 	var drillTimer : Timer = get_parent().find_node("DrillTimer")
@@ -48,7 +49,6 @@ func startDrilling():
 	
 
 	$Area2D/EnemySprite.play("drilling")
-	drilling = true
 	pass
 
 
@@ -58,7 +58,7 @@ func _on_Area2D_body_entered(body):
 	
 
 	if body.get_parent().has_method("removeSelf"):
-		body.get_parent().removeSelf()
+		body.get_parent().free()
 		var boatCounter = get_parent().find_node("BoatCounter")
 		boatCounter.updateScore() 
 		var helpBar : ProgressBar = get_parent().find_node("HelpBar")
@@ -67,6 +67,6 @@ func _on_Area2D_body_entered(body):
 			get_parent().find_node("DrillTimer").removeDrill()
 			drilling = false
 		queue_free()
-	else:
+	elif body is StaticBody2D:
 		startDrilling()
 	pass # Replace with function body.

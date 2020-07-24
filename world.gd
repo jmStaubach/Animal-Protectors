@@ -10,15 +10,20 @@ var penguin_scene = preload("res://Penguin.tscn")
 var fish_scene = preload("res://Fish.tscn")
 var boat_scene = preload("res://Boat.tscn")
 var albatross_scene = preload("res://Albatross.tscn")
+var rene_scene = preload("res://Rene.tscn")
 var penguin = penguin_scene.instance()
 var start_postion = Vector2(390,365) 
 var start_postion_fish = Vector2(400,397) 
 var boat_speed = Vector2(40,0)
 var max_speed = 180
+
+var rene = rene_scene.instance()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	penguin.position = start_postion
 	add_child(penguin)
+	rene.visible = false
+	add_child(rene)
 	pass # Replace with function body.
 
 
@@ -45,6 +50,10 @@ func _process(_delta):
 		$HelpBar.value = 0
 	if Input.is_action_just_pressed("ui_down") && $RepairBar.value == 100:
 		$RepairBar.value = 0
+		
+		rene.visible = true
+		$ReneTimer.start()
+		
 		$StaticBody2D/CrackSprite.frame = 0
 	if Input.is_action_just_pressed("ui_left"):
 			penguin.look_left()		
@@ -85,6 +94,7 @@ func _on_AnimatedSprite_game_over():
 	print("game Over")
 	$Sprite/Game_Over_Label.visible = true
 	$Game_Over.visible = true
+	penguin.setAnimation("pingu_sad")
 	penguin.position.y = 500
 	get_tree().paused = true
 	pass # Replace with function body.
@@ -118,4 +128,11 @@ func _on_Wave_timeout():
 	spawnBoat()
 	spawnBoat()
 	spawnBoat()	
+	pass # Replace with function body.
+
+
+func _on_ReneTimer_timeout():
+	
+	rene.visible = false
+	$ReneTimer.stop()
 	pass # Replace with function body.

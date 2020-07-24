@@ -1,21 +1,17 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tiles/penguin/penguin/penguin_right.png" type="Texture" id=1]
 [ext_resource path="res://Penguin.gd" type="Script" id=2]
 [ext_resource path="res://tiles/penguin/penguin/penguin_left.png" type="Texture" id=3]
 [ext_resource path="res://tiles/penguin/penguin/penguin_right_throw.png" type="Texture" id=4]
 [ext_resource path="res://tiles/penguin/penguin/penguin_left_throw.png" type="Texture" id=5]
+[ext_resource path="res://tiles/penguin/penguin/penguin_sad.png" type="Texture" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
 "name": "pingu_throw_left",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 3 ), ExtResource( 5 ) ],
-"loop": false,
-"name": "pingu_left",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 1 ) ],
@@ -26,6 +22,16 @@ animations = [ {
 "frames": [ ExtResource( 4 ) ],
 "loop": true,
 "name": "pingu_throw_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "pingu_left",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "pingu_sad",
 "speed": 5.0
 } ]
 

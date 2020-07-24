@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://tiles/background.png" type="Texture" id=1]
 [ext_resource path="res://Label.gd" type="Script" id=2]
@@ -21,6 +21,29 @@
 [ext_resource path="res://tiles/albert/albert_head.png" type="Texture" id=19]
 [ext_resource path="res://tiles/background_game_over.png" type="Texture" id=20]
 [ext_resource path="res://RepairBar.gd" type="Script" id=21]
+[ext_resource path="res://tiles/rene/rene_head.png" type="Texture" id=22]
+[ext_resource path="res://tiles/driller_head.png" type="Texture" id=23]
+[ext_resource path="res://tiles/fonts/Lobster-Regular.ttf" type="DynamicFontData" id=24]
+
+[sub_resource type="DynamicFont" id=12]
+size = 24
+font_data = ExtResource( 24 )
+
+[sub_resource type="DynamicFont" id=13]
+size = 24
+font_data = ExtResource( 24 )
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ ExtResource( 23 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=14]
+size = 24
+font_data = ExtResource( 24 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -83,12 +106,22 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ ExtResource( 22 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 800.0
-margin_bottom = 600.0
+margin_left = -2.65753
+margin_top = -1.05948
+margin_right = 797.342
+margin_bottom = 598.941
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -104,27 +137,37 @@ __meta__ = {
 }
 
 [node name="FishCount" type="Label" parent="."]
-margin_left = 114.433
-margin_top = 18.5071
-margin_right = 148.433
-margin_bottom = 50.5071
-text = "X 1"
+margin_left = 101.705
+margin_top = 3.65786
+margin_right = 144.705
+margin_bottom = 42.6579
+size_flags_stretch_ratio = 0.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "x 1"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BoatCounter" type="Label" parent="."]
-margin_left = 12.571
-margin_top = 65.7993
-margin_right = 106.571
-margin_bottom = 96.7993
-text = "Highscore: 0
+margin_left = 106.122
+margin_top = 69.6379
+margin_right = 200.122
+margin_bottom = 132.638
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0
 "
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="BoatCounter"]
+position = Vector2( -62.0953, 12.818 )
+scale = Vector2( 0.110163, 0.116565 )
+frames = SubResource( 11 )
 
 [node name="DrillTimer" type="Timer" parent="."]
 wait_time = 1.5
@@ -145,10 +188,12 @@ z_index = 2
 [node name="Game_Over_Label" type="Label" parent="Sprite"]
 pause_mode = 2
 visible = false
-margin_left = 357.776
-margin_top = 300.141
-margin_right = 652.776
-margin_bottom = 422.141
+margin_left = 350.626
+margin_top = 315.868
+margin_right = 645.626
+margin_bottom = 437.868
+custom_fonts/font = SubResource( 14 )
+custom_colors/font_color = Color( 0.572549, 0.0666667, 0.0666667, 1 )
 text = "Highscore:"
 script = ExtResource( 12 )
 __meta__ = {
@@ -156,18 +201,21 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Sprite/Game_Over_Label"]
-margin_left = -156.063
-margin_top = -158.751
-margin_right = 643.937
-margin_bottom = 111.249
+margin_left = -143.791
+margin_top = -158.122
+margin_right = 656.209
+margin_bottom = 111.878
 rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Button" type="TextureButton" parent="Sprite/Game_Over_Label"]
-margin_left = -41.7277
-margin_top = 195.297
-margin_right = 758.272
-margin_bottom = 417.297
+margin_left = -35.0
+margin_top = 175.0
+margin_right = 765.0
+margin_bottom = 397.0
 rect_scale = Vector2( 0.25, 0.25 )
 texture_normal = ExtResource( 17 )
 texture_pressed = ExtResource( 11 )
@@ -196,7 +244,7 @@ polygon = PoolVector2Array( 14.5032, -0.681427, 61.2226, 1.32083, 60.2719, -39.7
 [node name="water_body" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="water_body"]
-position = Vector2( 386.973, 598.342 )
+position = Vector2( 392.769, 596.681 )
 shape = SubResource( 3 )
 
 [node name="IncreaseDifficulty" type="Timer" parent="."]
@@ -205,10 +253,10 @@ autostart = true
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 visible = false
-margin_left = 319.917
-margin_top = 287.55
-margin_right = 547.917
-margin_bottom = 307.55
+margin_left = 320.0
+margin_top = 288.0
+margin_right = 503.0
+margin_bottom = 308.0
 custom_styles/fg = SubResource( 4 )
 custom_styles/bg = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -225,8 +273,8 @@ __meta__ = {
 wait_time = 0.005
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 53.5669, 24.6924 )
-scale = Vector2( 0.249416, 0.249416 )
+position = Vector2( 42.2532, 19.3891 )
+scale = Vector2( 0.196383, 0.196383 )
 frames = SubResource( 6 )
 
 [node name="HelpBar" type="ProgressBar" parent="."]
@@ -239,7 +287,7 @@ custom_styles/bg = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
 max_value = 100.0
-value = 100.0
+value = 20.0
 percent_visible = false
 script = ExtResource( 18 )
 __meta__ = {
@@ -248,7 +296,7 @@ __meta__ = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="HelpBar"]
-position = Vector2( -29.9236, 12.4867 )
+position = Vector2( -26.9269, 12.4867 )
 scale = Vector2( 0.160228, 0.160228 )
 frames = SubResource( 7 )
 
@@ -256,9 +304,11 @@ frames = SubResource( 7 )
 position = Vector2( 398.808, -28.2843 )
 amount = 1000
 lifetime = 10.0
+preprocess = 18.5
 emission_shape = 2
 emission_rect_extents = Vector2( 400, 1 )
 gravity = Vector2( 0, 10 )
+scale_amount = 1.5
 
 [node name="RepairBar" type="ProgressBar" parent="."]
 margin_left = 559.113
@@ -270,6 +320,7 @@ custom_styles/bg = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
 max_value = 100.0
+value = 20.0
 percent_visible = false
 script = ExtResource( 21 )
 __meta__ = {
@@ -280,9 +331,17 @@ __meta__ = {
 [node name="RepairTimer" type="Timer" parent="RepairBar"]
 autostart = true
 
+[node name="AnimatedSprite" type="AnimatedSprite" parent="RepairBar"]
+position = Vector2( -29.1743, 12.3942 )
+scale = Vector2( 0.114365, 0.114365 )
+frames = SubResource( 10 )
+
 [node name="Wave" type="Timer" parent="."]
 wait_time = 30.0
 autostart = true
+
+[node name="ReneTimer" type="Timer" parent="."]
+wait_time = 2.0
 [connection signal="updateFish" from="." to="FishCount" method="_on_World_updateFish"]
 [connection signal="timeout" from="DrillTimer" to="StaticBody2D/CrackSprite" method="_on_DrillTimer_timeout"]
 [connection signal="increaseFishCount" from="FishReset" to="FishCount" method="_on_FishReset_increaseFishCount"]
@@ -296,3 +355,4 @@ autostart = true
 [connection signal="timeout" from="ThrowTimer" to="ProgressBar" method="_on_ThrowTimer_timeout"]
 [connection signal="timeout" from="RepairBar/RepairTimer" to="RepairBar" method="_on_RepairTimer_timeout"]
 [connection signal="timeout" from="Wave" to="." method="_on_Wave_timeout"]
+[connection signal="timeout" from="ReneTimer" to="." method="_on_ReneTimer_timeout"]
