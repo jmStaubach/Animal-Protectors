@@ -5,7 +5,19 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
-var velocity = Vector2(20,0)
+var velocity = Vector2(0,0)
+func init(speed):
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var random_speed = 0
+	if(speed.x < 0):
+		random_speed = rng.randi_range(speed.x, -20)	
+	else:	
+		random_speed = rng.randi_range(20, speed.x)
+	velocity = Vector2(random_speed, 0)
+	print(velocity.x)
+	pass
+
 
 var drilling = false
 
@@ -15,11 +27,9 @@ func _ready():
 
 
 func setLeftDirection():
-	velocity = Vector2(-40,0)	
 	scale = Vector2(-1,1)
 	pass
 func setRightDirection():
-	velocity = Vector2(40,0)	
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,7 +42,11 @@ func _process(delta):
 func startDrilling():
 	velocity = Vector2(0,0)
 	#TODO Animation für das Bohren hinzufügen
-	get_parent().get_child(3).start()
+	var drillTimer : Timer = get_parent().find_node("DrillTimer")
+	drillTimer.start()
+	drillTimer.addDrill()
+	
+
 	$Area2D/EnemySprite.play("drilling")
 	drilling = true
 	pass
@@ -42,12 +56,17 @@ func startDrilling():
 	
 func _on_Area2D_body_entered(body):
 	
-	get_parent().get_child(2).updateScore() 
 
-	drilling = false
 	if body.get_parent().has_method("removeSelf"):
 		body.get_parent().removeSelf()
-		get_parent().remove_child(self)
+		var boatCounter = get_parent().find_node("BoatCounter")
+		boatCounter.updateScore() 
+		var helpBar : ProgressBar = get_parent().find_node("HelpBar")
+		helpBar.value += 8
+		if drilling:
+			get_parent().find_node("DrillTimer").removeDrill()
+			drilling = false
+		queue_free()
 	else:
 		startDrilling()
 	pass # Replace with function body.

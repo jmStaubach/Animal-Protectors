@@ -1,10 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tiles/fish/fish.PNG" type="Texture" id=1]
 [ext_resource path="res://Fish.gd" type="Script" id=2]
+[ext_resource path="res://tiles/fish/fish_mirrored.png" type="Texture" id=3]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "inverted",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
 "name": "default",
@@ -16,10 +22,12 @@ extents = Vector2( 16.1263, 16.0204 )
 
 [node name="Fish" type="Node2D"]
 position = Vector2( -0.015625, -0.0078125 )
+rotation = 0.00174533
 script = ExtResource( 2 )
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 mass = 11.33
+gravity_scale = 3.64
 __meta__ = {
 "_edit_lock_": true
 }

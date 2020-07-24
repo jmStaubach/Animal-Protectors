@@ -16,13 +16,13 @@ func _ready():
 #	pass
 
 func removeSelf():
-	get_parent().remove_child(self)
+	queue_free()
 	pass
 
 func invert():
-	scale = Vector2(-1,1)
+	$RigidBody2D/AnimatedSprite.animation = "inverted"
 	pass
 
-func _on_RigidBody2D_body_entered(body):
-	get_parent().remove_child(self)
+func _on_RigidBody2D_body_entered(_body):
+	queue_free()
 	pass # Replace with function body.

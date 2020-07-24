@@ -1,0 +1,34 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Cutscene.gd" type="Script" id=1]
+[ext_resource path="res://tiles/dialog/dialog_1.png" type="Texture" id=2]
+[ext_resource path="res://tiles/dialog/dialog_2.png" type="Texture" id=3]
+[ext_resource path="res://tiles/dialog/dialog_3.png" type="Texture" id=4]
+[ext_resource path="res://tiles/dialog/dialog_4.png" type="Texture" id=5]
+[ext_resource path="res://tiles/dialog/dialog_5.png" type="Texture" id=6]
+[ext_resource path="res://tiles/dialog/tutorial.png" type="Texture" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Cutscene" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="CutsceneSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 400, 300 )
+frames = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 549.549
+margin_top = 575.448
+margin_right = 788.549
+margin_bottom = 635.448
+text = "Drücke die Leertaste um fortzufahren"
+__meta__ = {
+"_edit_use_anchors_": false
+}

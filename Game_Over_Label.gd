@@ -23,5 +23,5 @@ func _on_Button_pressed():
 
 
 func _on_Game_Over_Label_visibility_changed():
-	text = str("Oh, du hast es leider nicht geschafft die bösen Ölbohrer abzuwehren \n \n Highscore: ", get_parent().get_child(2).score)
+	text = str("Highscore: ", get_parent().get_parent().find_node("BoatCounter").score)
 	pass # Replace with function body.

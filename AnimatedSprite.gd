@@ -18,12 +18,10 @@ func _ready():
 
 
 func _on_DrillTimer_timeout():
-	if(animation == "3 broken parts"):
+	if frame == 3:
 		emit_signal("game_over")
-	if(animation == "2 broken parts"):
-		animation = "3 broken parts"
-	if(animation == "1 broken part"):
-		animation = "2 broken parts"
-	if(animation == "default"):
-		animation = "1 broken part";
+		frame = 0
+	else:
+		frame += 1
+	
 	pass # Replace with function body.
